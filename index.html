@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflex Master - Offline Game</title>
+    <style>
+        body {
+            background-color: #1f1f1f;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #game-box {
+            border: 2px solid #556b2f;
+            padding: 30px;
+            border-radius: 15px;
+            background-color: #2b2b2b;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .btn {
+            background-color: #556b2f;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { background-color: #708c3d; }
+        #word { font-size: 50px; font-weight: bold; color: #d4d4d4; margin: 20px 0; }
+        #score-board { font-size: 20px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="game-box">
+        <h1>Reflex Master</h1>
+        <div id="score-board">Score: <span id="score">0</span></div>
+        <div id="word">READY?</div>
+        <button class="btn" onclick="startGame()">START GAME</button>
+        <div id="controls" style="display:none;">
+            <button class="btn" onclick="checkAnswer('RED')">RED</button>
+            <button class="btn" onclick="checkAnswer('BLUE')">BLUE</button>
+            <button class="btn" onclick="checkAnswer('GREEN')">GREEN</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let gameActive = false;
+        const colors = ['RED', 'BLUE', 'GREEN'];
+
+        function startGame() {
+            gameActive = true;
+            document.querySelector('button').style.display = 'none';
+            document.getElementById('controls').style.display = 'block';
+            nextRound();
+        }
+
+        function nextRound() {
+            if(!gameActive) return;
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('word').innerText = randomColor;
+        }
+
+        function checkAnswer(selected) {
+            if(selected === document.getElementById('word').innerText) {
+                score++;
+                document.getElementById('score').innerText = score;
+                nextRound();
+            } else {
+                alert("Game Over! Final Score: " + score);
+                score = 0;
+                document.getElementById('score').innerText = 0;
+                gameActive = false;
+                document.querySelector('button').style.display = 'inline-block';
+                document.getElementById('controls').style.display = 'none';
+                document.getElementById('word').innerText = 'READY?';
+            }
+        }
+    </script>
+</body>
+</html>
